@@ -18,7 +18,7 @@ func TestLevelDBStoreTestSuite(t *testing.T) {
 }
 
 type LevelDBStoreTestSuite struct {
-	ChunkStoreTestSuite
+	ChunkStore1TestSuite
 	factory Factory
 	dir     string
 }

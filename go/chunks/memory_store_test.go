@@ -15,7 +15,7 @@ func TestMemoryStoreTestSuite(t *testing.T) {
 }
 
 type MemoryStoreTestSuite struct {
-	ChunkStoreTestSuite
+	ChunkStore1TestSuite
 }
 
 func (suite *MemoryStoreTestSuite) SetupTest() {
