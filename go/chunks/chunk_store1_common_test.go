@@ -5,7 +5,7 @@
 package chunks
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/attic-labs/testify/suite"
 
 	"github.com/stormasm/nomsleveldb/go/constants"
@@ -35,7 +35,7 @@ func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
 
 	myhash1 := suite.Store.Root()
 	myhash_str1 := myhash1.String()
-	fmt.Println(myhash_str1)
+	//fmt.Println(myhash_str1)
 	suite.Equal(hash_str_check1, myhash_str1)
 
 	// And reading it via the API should work...
@@ -65,18 +65,18 @@ func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
 	suite.Store.Put(c2)
 	h2 := c2.Hash()
 
-	fmt.Println(h2.String())
+	//fmt.Println(h2.String())
 	suite.Equal(hash_str_check2, h2.String())
 
 	oldRoot = suite.Store.Root()
-	fmt.Println(oldRoot)
+	//fmt.Println(oldRoot)
 	suite.Equal(oldRoot,h1)
 
 	suite.Store.UpdateRoot(h2, suite.Store.Root()) // Commit writes
 
 	myhash2 := suite.Store.Root()
 	myhash_str2 := myhash2.String()
-	fmt.Println(myhash_str2)
+	//fmt.Println(myhash_str2)
 
 	suite.Equal(hash_str_check2, myhash_str2)
 
