@@ -54,6 +54,37 @@ func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
 	if suite.putCountFn != nil {
 		suite.Equal(2, suite.putCountFn())
 	}
+
+	//
+	// Add a second input
+	//
+
+	hash_str_check2 := "82k5bfoaif0g37blrldljjc1atg8g4et"
+	input2 := "def"
+	c2 := NewChunk([]byte(input2))
+	suite.Store.Put(c2)
+	h2 := c2.Hash()
+
+	fmt.Println(h2.String())
+	suite.Equal(hash_str_check2, h2.String())
+
+	oldRoot = suite.Store.Root()
+	fmt.Println(oldRoot)
+	suite.Equal(oldRoot,h1)
+
+	suite.Store.UpdateRoot(h2, suite.Store.Root()) // Commit writes
+
+	myhash2 := suite.Store.Root()
+	myhash_str2 := myhash2.String()
+	fmt.Println(myhash_str2)
+
+	suite.Equal(hash_str_check2, myhash_str2)
+
+	// And reading it via the API should work...
+	assertInputInStore(input2, h2, suite.Store, suite.Assert())
+	if suite.putCountFn != nil {
+		suite.Equal(3, suite.putCountFn())
+	}
 }
 
 func (suite *ChunkStore1TestSuite) TestChunkStoreRoot() {
