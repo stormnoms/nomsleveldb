@@ -5,6 +5,7 @@
 package chunks
 
 import (
+	"fmt"
 	"github.com/attic-labs/testify/suite"
 
 	"github.com/stormasm/nomsleveldb/go/constants"
@@ -18,18 +19,24 @@ type ChunkStore1TestSuite struct {
 }
 
 func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
+	hash_str_check1 := "rmnjb8cjc5tblj21ed4qs821649eduie"
 	input := "abc"
 	c := NewChunk([]byte(input))
 	suite.Store.Put(c)
 	h := c.Hash()
 
 	// See http://www.di-mgt.com.au/sha_testvectors.html
-	suite.Equal("rmnjb8cjc5tblj21ed4qs821649eduie", h.String())
+	suite.Equal(hash_str_check1, h.String())
 
 	oldRoot := suite.Store.Root()
 	suite.True(oldRoot.IsEmpty())
 
 	suite.Store.UpdateRoot(h, suite.Store.Root()) // Commit writes
+
+	myhash := suite.Store.Root()
+	myhash_str := myhash.String()
+	fmt.Println(myhash_str)
+	suite.Equal(hash_str_check1, myhash_str)
 
 	// And reading it via the API should work...
 	assertInputInStore(input, h, suite.Store, suite.Assert())
