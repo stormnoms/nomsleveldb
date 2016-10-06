@@ -20,36 +20,36 @@ type ChunkStore1TestSuite struct {
 
 func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
 	hash_str_check1 := "rmnjb8cjc5tblj21ed4qs821649eduie"
-	input := "abc"
-	c := NewChunk([]byte(input))
-	suite.Store.Put(c)
-	h := c.Hash()
+	input1 := "abc"
+	c1 := NewChunk([]byte(input1))
+	suite.Store.Put(c1)
+	h1 := c1.Hash()
 
 	// See http://www.di-mgt.com.au/sha_testvectors.html
-	suite.Equal(hash_str_check1, h.String())
+	suite.Equal(hash_str_check1, h1.String())
 
 	oldRoot := suite.Store.Root()
 	suite.True(oldRoot.IsEmpty())
 
-	suite.Store.UpdateRoot(h, suite.Store.Root()) // Commit writes
+	suite.Store.UpdateRoot(h1, suite.Store.Root()) // Commit writes
 
-	myhash := suite.Store.Root()
-	myhash_str := myhash.String()
-	fmt.Println(myhash_str)
-	suite.Equal(hash_str_check1, myhash_str)
+	myhash1 := suite.Store.Root()
+	myhash_str1 := myhash1.String()
+	fmt.Println(myhash_str1)
+	suite.Equal(hash_str_check1, myhash_str1)
 
 	// And reading it via the API should work...
-	assertInputInStore(input, h, suite.Store, suite.Assert())
+	assertInputInStore(input1, h1, suite.Store, suite.Assert())
 	if suite.putCountFn != nil {
 		suite.Equal(1, suite.putCountFn())
 	}
 
 	// Re-writing the same data should cause a second put
-	c = NewChunk([]byte(input))
-	suite.Store.Put(c)
-	suite.Equal(h, c.Hash())
-	assertInputInStore(input, h, suite.Store, suite.Assert())
-	suite.Store.UpdateRoot(h, suite.Store.Root()) // Commit writes
+	c1 = NewChunk([]byte(input1))
+	suite.Store.Put(c1)
+	suite.Equal(h1, c1.Hash())
+	assertInputInStore(input1, h1, suite.Store, suite.Assert())
+	suite.Store.UpdateRoot(h1, suite.Store.Root()) // Commit writes
 
 	if suite.putCountFn != nil {
 		suite.Equal(2, suite.putCountFn())
