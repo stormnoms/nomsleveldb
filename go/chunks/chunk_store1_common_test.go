@@ -26,6 +26,9 @@ func (suite *ChunkStore1TestSuite) TestChunkStorePut() {
 	// See http://www.di-mgt.com.au/sha_testvectors.html
 	suite.Equal("rmnjb8cjc5tblj21ed4qs821649eduie", h.String())
 
+	oldRoot := suite.Store.Root()
+	suite.True(oldRoot.IsEmpty())
+
 	suite.Store.UpdateRoot(h, suite.Store.Root()) // Commit writes
 
 	// And reading it via the API should work...
